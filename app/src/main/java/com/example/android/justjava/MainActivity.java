@@ -9,13 +9,12 @@
 package com.example.android.justjava;
 
 
-
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.TextView;
-import java.text.NumberFormat;
-import java.util.Locale;
 
 /**
  * This app displays an order form to order coffee.
@@ -32,22 +31,46 @@ public class MainActivity extends AppCompatActivity {
     /**
      * Calculates the price of the order.
      *
-     *
+     * return @price
      *
      */
     private int calculatePrice() {
         int priceCoffee = 5;
-        int price = quantity * priceCoffee;
-        return price;
+        return quantity * priceCoffee;
     }
+
+    /**
+     * Form the string for the order message.
+     *
+     * return a string
+     *
+     */
+    private String createOrderSummary(String userName, int price, boolean hasWhipp, boolean hasChoco) {
+        String priceMessage = "Name: " + userName;
+        priceMessage += "\nAdd whipped cream? " + hasWhipp;
+        priceMessage += "\nAdd Chocolate? " + hasChoco;
+        priceMessage +=  "\nQuantity: " + quantity;
+        priceMessage +=  "\nTotal $ " + price + "\nThank you!";
+        return priceMessage;
+    }
+
 
     /**
      * This method is called when the order button is clicked.
      */
     public void submitOrder(View view){
+
+        EditText userName = (EditText) findViewById(R.id.user_name_view);
+        String stringUserName = userName.getText().toString();
+
+        CheckBox whippCream = (CheckBox) findViewById(R.id.cream_checkbox);
+        boolean hasWhipp = whippCream.isChecked();
+
+        CheckBox chocolate = (CheckBox) findViewById(R.id.chocolate_checkbox);
+        boolean hasChoco = chocolate.isChecked();
+
         int price = calculatePrice();
-        String priceMessage = "Total $ " + price + "\nThank you!";
-        displayMessage(priceMessage);
+        displayMessage(createOrderSummary(stringUserName, price, hasWhipp, hasChoco));
     }
 
     /**
@@ -75,18 +98,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
-     * This method displays the given price on the screen.
-     */
-    private void displayPrice(int number) {
-        TextView priceTextView = (TextView) findViewById(R.id.price_text_view);
-        priceTextView.setText(NumberFormat.getCurrencyInstance(Locale.US).format(number));
-    }
-
-    /**
      * This method displays the given text on the screen.
      */
     private void displayMessage(String message) {
-        TextView priceTextView = (TextView) findViewById(R.id.price_text_view);
-        priceTextView.setText(message);
+        TextView orderSummaryTextView = (TextView) findViewById(R.id.order_summary_text_view);
+        orderSummaryTextView.setText(message);
     }
 }
