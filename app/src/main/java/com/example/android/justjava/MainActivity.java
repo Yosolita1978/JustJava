@@ -15,13 +15,14 @@ import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 /**
  * This app displays an order form to order coffee.
  */
 public class MainActivity extends AppCompatActivity {
 
-    int quantity = 0;
+    int quantity = 1;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,8 +35,15 @@ public class MainActivity extends AppCompatActivity {
      * return @price
      *
      */
-    private int calculatePrice() {
+    private int calculatePrice(boolean addWhipp, boolean addChoco) {
         int priceCoffee = 5;
+        if (addWhipp){
+            priceCoffee += 1;
+        }
+
+        if (addChoco){
+            priceCoffee += 2;
+        }
         return quantity * priceCoffee;
     }
 
@@ -69,7 +77,7 @@ public class MainActivity extends AppCompatActivity {
         CheckBox chocolate = (CheckBox) findViewById(R.id.chocolate_checkbox);
         boolean hasChoco = chocolate.isChecked();
 
-        int price = calculatePrice();
+        int price = calculatePrice(hasWhipp, hasChoco);
         displayMessage(createOrderSummary(stringUserName, price, hasWhipp, hasChoco));
     }
 
@@ -77,6 +85,10 @@ public class MainActivity extends AppCompatActivity {
      * This method is called when the plus button is clicked.
      */
     public void increment(View view) {
+        if (quantity >= 100){
+            Toast.makeText(this, "You cannot have more than 100 coffees", Toast.LENGTH_SHORT).show();
+            return;
+        }
         quantity = quantity + 1;
         displayQuantity(quantity);
     }
@@ -85,6 +97,10 @@ public class MainActivity extends AppCompatActivity {
      * This method is called when the minus button is clicked.
      */
     public void decrement(View view) {
+        if (quantity == 1){
+            Toast.makeText(this, "You cannot have less than 1 coffee", Toast.LENGTH_SHORT).show();
+            return;
+        }
         quantity = quantity - 1;
         displayQuantity(quantity);
     }
