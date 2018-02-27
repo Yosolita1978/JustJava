@@ -9,6 +9,8 @@
 package com.example.android.justjava;
 
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -54,11 +56,11 @@ public class MainActivity extends AppCompatActivity {
      *
      */
     private String createOrderSummary(String userName, int price, boolean hasWhipp, boolean hasChoco) {
-        String priceMessage = "Name: " + userName;
-        priceMessage += "\nAdd whipped cream? " + hasWhipp;
-        priceMessage += "\nAdd Chocolate? " + hasChoco;
-        priceMessage +=  "\nQuantity: " + quantity;
-        priceMessage +=  "\nTotal $ " + price + "\nThank you!";
+        String priceMessage = getString(R.string.order_summary_name, userName);
+        priceMessage += "\n" + getString(R.string.order_summary_whipped_cream, hasWhipp);
+        priceMessage += "\n" + getString(R.string.order_summary_chocolate, hasChoco);
+        priceMessage +=  "\n" + getString(R.string.order_summary_quantity, quantity);
+        priceMessage +=  "\n" + getString(R.string.total) + price + "\n" + getString(R.string.thank_you);
         return priceMessage;
     }
 
@@ -78,7 +80,16 @@ public class MainActivity extends AppCompatActivity {
         boolean hasChoco = chocolate.isChecked();
 
         int price = calculatePrice(hasWhipp, hasChoco);
-        displayMessage(createOrderSummary(stringUserName, price, hasWhipp, hasChoco));
+        String priceMessage = createOrderSummary(stringUserName, price, hasWhipp, hasChoco);
+
+        Intent intent = new Intent(Intent.ACTION_SENDTO);
+        intent.setData(Uri.parse("mailto:")); // only email apps should handle this
+        intent.putExtra(Intent.EXTRA_SUBJECT, "Just Java order for " + stringUserName);
+        intent.putExtra(Intent.EXTRA_TEXT, priceMessage);
+        if (intent.resolveActivity(getPackageManager()) != null) {
+            startActivity(intent);
+        }
+
     }
 
     /**
@@ -113,11 +124,4 @@ public class MainActivity extends AppCompatActivity {
         quantityTextView.setText("" + number);
     }
 
-    /**
-     * This method displays the given text on the screen.
-     */
-    private void displayMessage(String message) {
-        TextView orderSummaryTextView = (TextView) findViewById(R.id.order_summary_text_view);
-        orderSummaryTextView.setText(message);
-    }
 }
