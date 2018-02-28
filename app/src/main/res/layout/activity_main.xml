@@ -11,6 +11,45 @@
     android:orientation="vertical"
     tools:context="com.example.android.justjava.MainActivity">
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="170dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="170dp"
+            android:orientation="vertical"
+            android:background="@drawable/gradientbackground">
+
+    <ImageView
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:src="@drawable/coffee"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="15dp"
+        android:layout_marginBottom="25dp"/>
+
+        </LinearLayout>
+
+        <android.support.v7.widget.CardView
+            android:layout_width="400dp"
+            android:layout_height="120dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="130dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="@string/app_name"
+                android:textStyle="normal"
+                android:fontFamily="serif-monospace"
+                android:textSize="25sp"/>
+
+        </android.support.v7.widget.CardView>
+
+    </RelativeLayout>
+
     <EditText
         android:id="@+id/user_name_view"
         android:layout_marginTop="16dp"
@@ -112,18 +151,26 @@
             android:textColor="@android:color/black"
             android:textSize="16sp" />
 
+
+
     </LinearLayout>
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginLeft="160dp"
+        android:layout_marginStart="160dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginTop="26dp"
+        android:textAlignment="center"
         android:onClick="submitOrder"
         android:text="@string/order"
+        android:background="@drawable/buttongradientbckgroud"
+        style="@style/Widget.AppCompat.ImageButton"
         android:textColor="@android:color/black"
         android:textSize="16sp" />
+
 
 </LinearLayout>
 
